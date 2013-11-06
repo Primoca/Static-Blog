@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>@ViewBag.Title</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+	<script type="text/javascript">
+		window.google_analytics_uacct = "@System.Configuration.ConfigurationManager.AppSettings["googleAnalyticsId"]";
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '@System.Configuration.ConfigurationManager.AppSettings["googleAnalyticsId"]']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+	<link href="@Static_Blog.BundleConfig.RewriteStyleBundleUrl(Styles.Url("~/Content/css").ToString())" rel="stylesheet"/>
+</head>
+<body>
+	<div style="background-color: #0B5FA5; color: white;" class="header">
+		<div>
+			<div class="center">
+				<a href="http://www.primoca.com">
+					<div style="font-size: 36px; float: left; padding: 0px 20px 0px 10px; height: 45px">
+						Primoca
+					</div>
+				</a>
+				<a href="/">
+					<div class="headerItem">Blog Home</div>
+				</a>
+				<div style="clear: both"></div>
+			</div>
+		</div>
+	</div>
+	<div style="margin: 0 auto; padding: 0 10px" class="center">
+		<div style="float: left">
+			@RenderBody()
+		</div>
+		<div style="float: left; max-width: 250px; text-align: left; padding-left: 40px">
+			<h3>Primoca Blog</h3>
+			<div>Primoca provides static website hosting with easy management and high performance.</div>
+			<h3><a href="/rss/feed.xml">RSS</a></h3>
+			<h3><a href="https://github.com/Primoca">GitHub</a></h3>
+			<h3><a href="http://twitter.com/PrimocaCloud">Twitter</a></h3>
+			<h3 style="padding-top:20px">Archives</h3>
+			@foreach (var year in Static_Blog.Models.Post.GetArchive())
+   {
+				<div style="padding-bottom: 10px"><a href="/posts/@year.Key/">@year.Key</a></div>
+	   foreach (var month in year.Value)
+	   {
+				<div style="padding-bottom: 10px; padding-left: 15px"><a href="/posts/@year.Key/@month/">@DateTime.Parse(month + "/1/2000").ToString("MMMM")</a></div>
+	   }
+   }
+			<h3><a href="/tags/">Tags</a></h3>
+		</div>
+		<div style="clear: both"></div>
+	</div>
+	@RenderSection("scripts", required: false)
+</body>
+</html>

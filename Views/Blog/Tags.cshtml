@@ -1,0 +1,16 @@
+﻿@model string[]
+@{
+    ViewBag.Title = "Tags";
+}
+
+<h1>Tags</h1>
+<div style="min-width:300px">
+@foreach (var item in Model)
+{
+	<div style="padding:10px"><a href="/tags/@item/">@item</a></div>
+}
+</div>
+<div style="display: none">
+	<a href="/favicon.ico">favicon.ico</a>
+	<a href="/apple-touch-icon.png">apple-touch-icon.png</a>
+</div>

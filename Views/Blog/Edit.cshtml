@@ -1,0 +1,43 @@
+﻿@model Static_Blog.Models.Post
+
+@{
+	ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<div class="center">
+	@using (Html.BeginForm())
+ {
+		<table style="text-align: left">
+			<tr>
+				<td>Title:</td>
+				<td>
+					<input name="Title" type="text" style="width:600px" value="@Model.Title" /></td>
+			</tr>
+			<tr>
+				<td>Date:</td>
+				<td>
+					<input name="Date" type="text" value="@Model.Date" /></td>
+			</tr>
+			<tr>
+				<td>Author:</td>
+				<td>
+					<input name="Author" type="text" value="@Model.Author" /></td>
+			</tr>
+			<tr>
+				<td>Tags:</td>
+				<td>
+					<input name="Tags" type="text" value="@Model.Tags" />(comma separated)</td>
+			</tr>
+			<tr>
+				<td>Markdown:</td>
+				<td>
+					<textarea name="MarkdownText" style="width: 600px; height: 600px">@Model.MarkdownText</textarea></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit"/></td>
+			</tr>
+		</table>
+ }
+</div>

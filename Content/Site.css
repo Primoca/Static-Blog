@@ -1,0 +1,60 @@
+﻿body
+{
+	font-family: 'Open Sans', sans-serif;
+    margin: 0px; 
+    background-color: #FFF;
+    text-align:center;
+    color:#333333
+}
+button
+{
+	font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    background-color:#EEE;
+    border: solid 1px #BBB;
+    cursor: pointer
+}
+
+input, textarea
+{
+	font-family: 'Open Sans', sans-serif;
+    font-size:16px
+}
+
+a {
+    color:#333333;
+}
+
+a:hover {
+    color:#888;
+}
+
+div.footer a, div.header a {
+    color:white;
+}
+
+.headerItem {
+    float: left;
+    padding: 17px 20px 6px 10px;
+}
+
+div.center {
+    margin: 0 auto;
+    display: inline-block;
+}
+
+p {
+    line-height: 1.5
+}
+
+hr {
+    border: 0;
+    background-color: #CCC;
+    height: 1px;
+}
+
+.post-content {
+    max-width:650px;
+    margin:0 auto;
+    text-align:left;
+}

@@ -1,0 +1,46 @@
+﻿@model Static_Blog.Models.Post[]
+@{
+	ViewBag.Title = ViewBag.TopH1 + " Primoca Blog";
+}
+
+<h1>@ViewBag.TopH1</h1>
+<div class="post-content">
+	@for (int i = 0; i < Model.Count(); i++)
+ {
+		<a href="/posts/@Model[i].FullId" style="text-decoration:none;">
+			<h1 style="margin-bottom: 0">@Model[i].Title</h1>
+			<span style="font-size: 12px">@Model[i].Date.ToString("MMMM d, yyyy") by @Model[i].Author</span>
+		</a>
+	 if (i < ViewBag.FullPostCount)
+	 {
+		@Model[i].HtmlText
+		<div>
+			Tags:
+	 @foreach (var t in Model[i].TagList)
+  {
+		 <a style="padding:0 10px" href="/tags/@t/">@t</a> 
+  }
+		</div>
+		<a href="/posts/@Model[i].FullId#disqus_thread">Comments</a>
+	 }
+	 else
+	 {
+		@Model[i].HtmlShort
+		<div><a href="/posts/@Model[i].FullId">Read More >></a></div>
+		<div><a href="/posts/@Model[i].FullId#disqus_thread">Comments</a></div>
+	 }
+		<hr />
+ }
+</div>
+@section scripts
+{
+	<script type="text/javascript">
+	  	var disqus_shortname = '@System.Configuration.ConfigurationManager.AppSettings["disqusId"]';
+	  	(function () {
+	  		var s = document.createElement('script'); s.async = true;
+	  		s.type = 'text/javascript';
+	  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	  	}());
+    </script>
+}
