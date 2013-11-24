@@ -58,3 +58,14 @@ hr {
     margin:0 auto;
     text-align:left;
 }
+
+h2{
+	line-height:0.5;
+	padding-top:20px
+}
+
+code{
+	background-color:#F9F9F9;
+	border:solid 1px #CCC;
+	padding:0 3px;
+}
