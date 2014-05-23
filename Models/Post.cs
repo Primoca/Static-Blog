@@ -23,7 +23,19 @@ namespace Static_Blog.Models
 		[JsonIgnore]
 		public HtmlString HtmlText { get { return new HtmlString(new MarkdownSharp.Markdown().Transform(MarkdownText)); } }
 		[JsonIgnore]
-		public HtmlString HtmlShort { get { return new HtmlString(new MarkdownSharp.Markdown().Transform(MarkdownText.Substring(0, MarkdownText.IndexOf(' ', MarkdownText.Length > 400 ? 400 : MarkdownText.Length / 2)) + "...")); } }
+		public HtmlString HtmlShort
+		{
+			get
+			{
+				var space = MarkdownText.IndexOf(' ', MarkdownText.Length > 400 ? 400 : MarkdownText.Length / 2);
+				var tag = MarkdownText.IndexOf('<');
+				if (tag > 0)
+				{
+					space = Math.Min(tag, space);
+				}
+				return new HtmlString(new MarkdownSharp.Markdown().Transform(MarkdownText.Substring(0, space)));
+			}
+		}
 
 		private static string GetPostsPath()
 		{

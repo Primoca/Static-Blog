@@ -43,8 +43,13 @@ div.center {
     display: inline-block;
 }
 
+div.centerAlign {
+   margin:0 auto;
+   text-align:center;
+}
+
 p {
-    line-height: 1.5
+    line-height: 1.5;
 }
 
 hr {
@@ -65,7 +70,7 @@ h1 {
 }
 
 h2 {
-	line-height:0.5;
+	line-height:1;
 	padding-top:40px
 }
 
@@ -73,4 +78,10 @@ code{
 	background-color:#F9F9F9;
 	border:solid 1px #CCC;
 	padding:0 3px;
+}
+
+@media (max-width: 450px) {
+	.v450 {
+        display: none;
+    }
 }

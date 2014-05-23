@@ -38,6 +38,7 @@ namespace Static_Blog.Controllers
 		}
 
 		[HttpPost]
+		[ValidateInput(false)]
 		public ActionResult Edit(Post post, string year, string month, string id)
 		{
 			var urlPostId = year + "/" + month + "/" + id;
