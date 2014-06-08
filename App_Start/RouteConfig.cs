@@ -14,6 +14,12 @@ namespace Static_Blog
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "Account",
+				url: "account/{action}/{id}",
+				defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
 				name: "Posts",
 				url: "posts/{year}/{month}/{id}",
 				defaults: new { controller = "Blog", action = "Posts", year = UrlParameter.Optional, month = UrlParameter.Optional, id = UrlParameter.Optional }
@@ -23,6 +29,12 @@ namespace Static_Blog
 				name: "Edit",
 				url: "edit/{year}/{month}/{id}",
 				defaults: new { controller = "Blog", action = "Edit", id = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+				name: "Asset",
+				url: "assets/{year}/{id}",
+				defaults: new { controller = "Blog", action = "Assets", id = UrlParameter.Optional }
 			);
 			
 			routes.MapRoute(

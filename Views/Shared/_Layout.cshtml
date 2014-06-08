@@ -51,7 +51,7 @@
 				<div style="padding-bottom: 10px"><a href="/posts/@year.Key/">@year.Key</a></div>
 	   foreach (var month in year.Value)
 	   {
-				<div style="padding-bottom: 10px; padding-left: 15px"><a href="/posts/@year.Key/@month/">@DateTime.Parse(month + "/1/2000").ToString("MMMM")</a></div>
+				<div style="padding-bottom: 10px; padding-left: 15px"><a href="/posts/@year.Key/@month.ToString("00")/">@DateTime.Parse(month + "/1/2000").ToString("MMMM")</a></div>
 	   }
    }
 			<h3><a href="/tags/">Tags</a></h3>

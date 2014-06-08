@@ -1,0 +1,20 @@
+﻿@model IEnumerable<string>
+
+@{
+	ViewBag.Title = "Assets";
+}
+
+<h2>Assets</h2>
+@foreach (string a in Model)
+{
+	<div><a href="/@a">@a</a></div>
+}
+
+@using (Html.BeginForm("assets", "blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken();
+	<input type="file" name="file" id="file" />
+
+  <input type="submit" />
+}
+

@@ -1,0 +1,23 @@
+﻿@{
+	Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+</head>
+<body>
+	<h2>Login</h2>
+	@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+	{
+		@Html.AntiForgeryToken()
+		<div style="padding:10px">
+			<button type="submit" name="provider" value="google" title="Login using your Google account" style="font-size: 20px; padding: 5px; width:280px">
+				<img src="https://google.com/favicon.ico" height="16" />
+				Login with Google
+			</button>
+		</div>
+	}
+</body>
+</html>

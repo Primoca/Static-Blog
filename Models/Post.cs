@@ -1,8 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
+using System.Threading;
 using System.Web;
 
 namespace Static_Blog.Models
@@ -17,6 +22,7 @@ namespace Static_Blog.Models
 		public string Author { get; set; }
 
 		public string FullId { get { return DateId + TitleId + "/"; } }
+		public string StorageId { get { return "posts/" + DateId + TitleId + ".txt"; } }
 		public string DateId { get { return Date.ToString("yyyy/MM/"); } }
 		public string TitleId { get { return Title.ToLower().Replace(' ', '-'); } }
 
@@ -37,26 +43,53 @@ namespace Static_Blog.Models
 			}
 		}
 
-		private static string GetPostsPath()
+		private static CloudBlobContainer GetContainer()
 		{
-			return HttpContext.Current.Server.MapPath("~/Content/posts") + "/";
+			CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+			var cl = storageAccount.CreateCloudBlobClient();
+			return cl.GetContainerReference("blog");
 		}
 
 		public static void Save(Post post)
 		{
-			var path = GetPostsPath() + post.DateId;
-			Directory.CreateDirectory(path);
-			File.WriteAllText(path + post.TitleId + ".txt", JsonConvert.SerializeObject(post));
+			var c = GetContainer();
+			var b = c.GetBlockBlobReference(post.StorageId);
+			b.UploadText(JsonConvert.SerializeObject(post));
 		}
 
 		public static Post Get(string id)
 		{
-			return JsonConvert.DeserializeObject<Post>(File.ReadAllText(GetPostsPath() + id + ".txt"));
+			var c = GetContainer();
+			var b = c.GetBlockBlobReference("posts/" + id + ".txt");
+			return JsonConvert.DeserializeObject<Post>(b.DownloadText());
+		}
+
+		private static readonly SemaphoreSlim _Lock = new SemaphoreSlim(1);
+		private static readonly string _allCacheKey = "allposts";
+		private static Post[] GetAllCached()
+		{
+			_Lock.Wait();
+			try
+			{
+				var all = (Post[])MemoryCache.Default.Get(_allCacheKey);
+				if (all == null)
+				{
+					var c = GetContainer();
+					var blobs = c.ListBlobs(prefix: "posts/",useFlatBlobListing: true);
+					all = blobs.Select(x => JsonConvert.DeserializeObject<Post>(((CloudBlockBlob)x).DownloadText())).OrderByDescending(x => x.Date).ToArray();
+					MemoryCache.Default.Add(_allCacheKey, all, DateTimeOffset.Now.AddSeconds(30));
+				}
+				return all;
+			}
+			finally
+			{
+				_Lock.Release();
+			}
 		}
 
 		public static Post[] Get(int? year, int? month)
 		{
-			var posts = Directory.GetFiles(GetPostsPath(), "*.*", SearchOption.AllDirectories).Select(x => JsonConvert.DeserializeObject<Post>(File.ReadAllText(x))).OrderByDescending(x => x.Date).ToArray();
+			var posts = GetAllCached();
 			if (!year.HasValue)
 			{
 				return posts;
@@ -78,9 +111,33 @@ namespace Static_Blog.Models
 			return Get(null, null).Where(x => x.TagList.Contains(tag)).OrderByDescending(x => x.Date).ToArray();
 		}
 
-		public static Dictionary<string, string[]> GetArchive()
+		public static Dictionary<int, int[]> GetArchive()
 		{
-			return Directory.GetDirectories(GetPostsPath()).OrderByDescending(x => x).ToDictionary(x => x.Replace(GetPostsPath(), ""), x => Directory.GetDirectories(x).OrderByDescending(s => s).Select(s => s.Replace(x + "\\", "")).ToArray());
+			return GetAllCached().GroupBy(x => x.Date.Year).ToDictionary(x => x.Key, x => x.Select(y => y.Date.Month).Distinct().ToArray());
+		}
+
+		public static string[] GetAssets()
+		{
+			var c = GetContainer();
+			var blobs = c.ListBlobs(prefix: "assets/", useFlatBlobListing: true);
+			return blobs.Select(x => (CloudBlockBlob)x).Select(x => x.Name).ToArray();
+		}
+
+		public static void SaveAsset(string name, Stream s)
+		{
+			var c = GetContainer();
+			var b = c.GetBlockBlobReference("assets/" + DateTime.Now.Year + "/" + name);
+			b.UploadFromStream(s);
+		}
+
+		public static Stream GetAsset(string id)
+		{
+			var c = GetContainer();
+			var b = c.GetBlockBlobReference("assets/" + id);
+			var m = new MemoryStream();
+			b.DownloadToStream(m);
+			m.Position = 0;
+			return m;
 		}
 	}
 }
