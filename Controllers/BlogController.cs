@@ -79,7 +79,7 @@ namespace Static_Blog.Controllers
 		}
 
 		[CustomAuthorize]
-		public ActionResult Assets(int year, string id)
+		public ActionResult Assets(int? year, string id)
 		{
 			if (!string.IsNullOrEmpty(id))
 			{
