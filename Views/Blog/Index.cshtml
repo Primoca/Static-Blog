@@ -35,7 +35,7 @@
 @section scripts
 {
 	<script type="text/javascript">
-	  	var disqus_shortname = '@System.Configuration.ConfigurationManager.AppSettings["disqusId"]';
+	  	var disqus_shortname = '@Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("disqusId")';
 	  	(function () {
 	  		var s = document.createElement('script'); s.async = true;
 	  		s.type = 'text/javascript';

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace Static_Blog
 		public override void OnAuthorization(AuthorizationContext filterContext)
 		{
 			var header = filterContext.RequestContext.HttpContext.Request.Headers["Authorization"];
-			if (!string.IsNullOrEmpty(header) && header == "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(ConfigurationManager.AppSettings["BasicPassword"] + ":")))
+			if (!string.IsNullOrEmpty(header) && header == "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(CloudConfigurationManager.GetSetting("BasicPassword") + ":")))
 			{
 				filterContext.HttpContext.User = new CustomPrincipal { Identity = new CustomIdentity { IsAuthenticated = true, Name = "Basic" } };
 			}

@@ -6,9 +6,9 @@
 	<title>@ViewBag.Title</title>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 	<script type="text/javascript">
-		window.google_analytics_uacct = "@System.Configuration.ConfigurationManager.AppSettings["googleAnalyticsId"]";
+		window.google_analytics_uacct = "@Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("googleAnalyticsId")";
 		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', '@System.Configuration.ConfigurationManager.AppSettings["googleAnalyticsId"]']);
+		_gaq.push(['_setAccount', '@Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("googleAnalyticsId")']);
 		_gaq.push(['_trackPageview']);
 
 		(function () {
