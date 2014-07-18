@@ -33,6 +33,10 @@ namespace Static_Blog.Models
 		{
 			get
 			{
+				if (string.IsNullOrWhiteSpace(MarkdownText))
+				{
+					return new HtmlString("");
+				}
 				var space = MarkdownText.IndexOf(' ', MarkdownText.Length > 400 ? 400 : MarkdownText.Length / 2);
 				var tag = MarkdownText.IndexOf('<');
 				if (tag > 0)
