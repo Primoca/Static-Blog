@@ -44,8 +44,10 @@
 			<div>Primoca provides static website hosting with easy management and high performance.</div>
 			<h3><a href="/rss/feed.xml">RSS</a></h3>
 			<h3><a href="https://github.com/Primoca">GitHub</a></h3>
-			<h3><a href="http://twitter.com/PrimocaCloud">Twitter</a></h3>
-			<h3 style="padding-top:20px">Archives</h3>
+			<h3>Twitter</h3>
+			<div style="padding-left:15px"><a href="http://twitter.com/alextworld">@@AlexTWorld</a></div>
+			<div style="padding-left:15px"><a href="http://twitter.com/PrimocaCloud">@@PrimocaCloud</a></div>
+			<h3 style="padding-top:10px">Archives</h3>
 			@foreach (var year in Static_Blog.Models.Post.GetArchive())
    {
 				<div style="padding-bottom: 10px"><a href="/posts/@year.Key/">@year.Key</a></div>
