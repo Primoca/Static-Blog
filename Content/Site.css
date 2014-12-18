@@ -77,7 +77,7 @@ h2 {
 code{
 	background-color:#F9F9F9;
 	border:solid 1px #CCC;
-	padding:0 3px;
+	padding:1px 3px;
 }
 
 @media (max-width: 450px) {
