@@ -80,6 +80,18 @@ code{
 	padding:1px 3px;
 }
 
+pre{
+	background-color:#F9F9F9;
+	border:solid 1px #CCC;
+	padding:5px 5px;
+}
+
+pre > code {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
 @media (max-width: 450px) {
 	.v450 {
         display: none;
