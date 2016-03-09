@@ -1,8 +1,10 @@
-﻿using Static_Blog.Models;
+﻿using Microsoft.WindowsAzure;
+using Static_Blog.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Syndication;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -54,7 +56,17 @@ namespace Static_Blog.Controllers
 			return View(post);
 		}
 
-		[CustomAuthorize]
+        [HttpPost]
+        [ValidateInput(false)]
+        [Authorize]
+        public async Task<ActionResult> Deploy()
+        {
+            var c = new Crawler();
+            await c.Crawl(new Uri(Request.Url.GetLeftPart(UriPartial.Authority)), CloudConfigurationManager.GetSetting("BasicPassword"), "");
+            return new ContentResult { Content = string.Join("<br>", c.CrawledUrls) + string.Join("<br>", c.log.entires) };
+        }
+
+        [CustomAuthorize]
 		public ActionResult Tags(string id)
 		{
 			if (string.IsNullOrEmpty(id))
