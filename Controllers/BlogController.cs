@@ -18,7 +18,7 @@ namespace Static_Blog.Controllers
         public ActionResult Index()
         {
 			ViewBag.FullPostCount = 1;
-			return View(Post.Get(null, null).Take(10).ToArray());
+			return View(Post.Get(null, null).Take(5).ToArray());
         }
 
 		[CustomAuthorize]
