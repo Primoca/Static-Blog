@@ -40,11 +40,10 @@
 			@RenderBody()
 		</div>
 		<div style="float: left; max-width: 250px; text-align: left; margin-left: 20px;padding-left:20px;border-left:solid 1px #CCC">
-			<div>Alex Thompson's blog</div>
-			<h3><a href="/rss/feed.xml">RSS</a></h3>
-			<h3><a href="https://github.com/pierogitus">GitHub</a></h3>
-			<h3>Twitter</h3>
-			<div style="padding-left:15px"><a href="http://twitter.com/alextworld">@@AlexTWorld</a></div>
+			<h3>Alex Thompson's blog</h3>
+			<div><a href="/rss/feed.xml">RSS</a></div>
+			<div><a href="https://github.com/pierogitus">GitHub</a></div>
+			<div><a href="http://twitter.com/alextworld">Twitter</a></div>
 			<h3 style="padding-top:10px">Archives</h3>
 			@foreach (var year in Static_Blog.Models.Post.GetArchive())
    {
